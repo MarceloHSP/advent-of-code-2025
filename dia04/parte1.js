@@ -13,30 +13,41 @@ const direcoes = [
     [ 1, -1], [ 1, 0], [ 1, 1]  // Linha de baixo (Esquerda, Meio, Direita)
 ];
 
-for (let y = 0; y < altura; y++) {
-    for (let x = 0; x < largura; x++) {
-        
-        // Vamos checar os vizinhos da celula grid[y][x]
-        let vizinhosArroba = 0;
+// Contador de rolos que podem ser pegues por uma empilhadeira
+let contadorRolos = 0;
 
-        // Loop pequeno que roda 8 vezes (uma pra cada direção)
-        for (let i = 0; i < direcoes.length; i++) {
-            const dy = direcoes[i][0];
-            const dx = direcoes[i][1];
+// Loop principal que percorre cada célula do grid
+for (let y = 0; y < altura; y++){
+    for (let x = 0; x < largura; x++){
+        if (grid[y][x] == '@') {
+            // Contador de vizinhos '@'
+            let vizinhosArroba = 0;
 
-            // Calcula a posição do vizinho
-            const vizinhoY = y + dy;
-            const vizinhoX = x + dx;
+            // Loop pequeno que roda 8 vezes (uma pra cada direção)
+            for (let i = 0; i < direcoes.length; i++) {
+                const dy = direcoes[i][0];
+                const dx = direcoes[i][1];
 
-            // Verifica se o vizinho não caiu fora do mapa (Segfault prevention)
-            if (vizinhoY >= 0 && vizinhoY < altura && 
-                vizinhoX >= 0 && vizinhoX < largura) {
-                
-                // Se está dentro do mapa, podemos olhar
-                if (grid[vizinhoY][vizinhoX] === '@') {
-                    vizinhosArroba++;
+                // Calcula a posição do vizinho
+                const vizinhoY = y + dy;
+                const vizinhoX = x + dx;
+
+                // Verifica se o vizinho não caiu fora do mapa (Segfault prevention)
+                if (vizinhoY >= 0 && vizinhoY < altura && 
+                    vizinhoX >= 0 && vizinhoX < largura) {
+                    
+                    // Se está dentro do mapa, podemos olhar
+                    if (grid[vizinhoY][vizinhoX] === '@') {
+                        vizinhosArroba++;
+                    }
                 }
+            }
+            if (vizinhosArroba < 4){
+                contadorRolos++;
             }
         }
     }
 }
+
+// SAIDA
+console.log(contadorRolos);
